@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171104192142) do
+ActiveRecord::Schema.define(version: 20171104202742) do
 
   create_table "events", force: :cascade do |t|
     t.string "eid"
@@ -20,7 +20,7 @@ ActiveRecord::Schema.define(version: 20171104192142) do
     t.string "last_date"
     t.text "location"
     t.text "description"
-    t.text "photo"
+    t.text "photos"
     t.text "geo"
     t.text "categories"
     t.datetime "created_at", null: false
