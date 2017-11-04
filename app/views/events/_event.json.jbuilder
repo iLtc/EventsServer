@@ -1,0 +1,1 @@
+json.extract! event, :eid, :title, :url, :first_date, :location, :description, :photos, :geo, :categories
