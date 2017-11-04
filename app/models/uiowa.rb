@@ -31,7 +31,7 @@ class Uiowa
     
     for event in events do
       temp = {
-        :eid => 'UI-' + event['id'].to_s + event['event_instances'][0]['event_instance']['id'].to_s,
+        :eid => 'UI-' + event['id'].to_s + '-' + event['event_instances'][0]['event_instance']['id'].to_s,
         :title => event['title'],
         :url => event['localist_url'],
         :first_date => event['event_instances'][0]['event_instance']['start'],
