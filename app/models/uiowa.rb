@@ -28,7 +28,7 @@ class Uiowa
 
   def self.format(events)
     formatted = []
-    
+
     for event in events do
       temp = {
         :eid => 'UI-' + event['id'].to_s + '-' + event['event_instances'][0]['event_instance']['id'].to_s,
@@ -42,9 +42,9 @@ class Uiowa
         :geo => {
           :latitude => event['geo']['latitude'],
           :longitude => event['geo']['longitude']
-        }
+        }.to_json
       }
-      
+
       categories = []
       if event['filters'].has_key?('event_types')
         for type in event['filters']['event_types'] do
@@ -52,13 +52,13 @@ class Uiowa
         end
       end
       temp[:categories] = categories
-      
+
       formatted << temp
     end
-    
+
     formatted
   end
-  
+
   def self.save(events)
     for event in events do
       unless Event.where('eid = ?', event[:eid]).count > 0
@@ -66,7 +66,7 @@ class Uiowa
       end
     end
   end
-  
+
   def self.sync
     events = events()
     formatted = format(events)
