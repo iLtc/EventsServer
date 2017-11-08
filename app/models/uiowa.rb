@@ -34,7 +34,7 @@ class Uiowa
         :eid => 'UI-' + event['id'].to_s + '-' + event['event_instances'][0]['event_instance']['id'].to_s,
         :title => event['title'],
         :url => event['localist_url'],
-        :first_date => event['event_instances'][0]['event_instance']['start'],
+        :first_date => DateTime.parse(event['event_instances'][0]['event_instance']['start']),
         :last_date => nil,
         :location => event['location_name'],
         :description => event['description_text'],
