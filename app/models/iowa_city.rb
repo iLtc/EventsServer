@@ -39,6 +39,7 @@ class IowaCity
   end
 
   def self.get_geo(address)
+    puts address
     response = HTTParty.get('https://maps.googleapis.com/maps/api/geocode/json?address=%s&key=%s' % [address, 'AIzaSyCg6tNKz8buHSdIOITIvC6sLRqWjPUYXXQ'])
     temp = response.parsed_response
 
