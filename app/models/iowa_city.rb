@@ -43,10 +43,17 @@ class IowaCity
     response = HTTParty.get('https://maps.googleapis.com/maps/api/geocode/json?address=%s&key=%s' % [address, 'AIzaSyCg6tNKz8buHSdIOITIvC6sLRqWjPUYXXQ'])
     temp = response.parsed_response
 
-    result = {
-        :latitude => temp['results'][0]['geometry']['location']['lat'],
-        :longitude => temp['results'][0]['geometry']['location']['lng']
-    }
+    if temp['results'].length > 0
+      result = {
+          :latitude => temp['results'][0]['geometry']['location']['lat'],
+          :longitude => temp['results'][0]['geometry']['location']['lng']
+      }
+    else
+      result = {
+          :latitude => '',
+          :longitude => ''
+      }
+    end
 
     result
   end
