@@ -10,13 +10,12 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171112012531) do
+ActiveRecord::Schema.define(version: 20171112020905) do
 
   create_table "events", force: :cascade do |t|
     t.string "eid"
     t.string "title"
     t.text "url"
-    t.string "last_date"
     t.text "location"
     t.text "description"
     t.text "photos"
@@ -26,6 +25,7 @@ ActiveRecord::Schema.define(version: 20171112012531) do
     t.datetime "updated_at", null: false
     t.datetime "first_date"
     t.boolean "all_day"
+    t.datetime "last_date"
   end
 
 end
