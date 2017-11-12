@@ -22,7 +22,8 @@ class IowaCity
           :location => event.at_css('.addressfield-container-inline').text.strip,
           :description => event.at_css('.field--name-field-event-description').text.strip,
           :photos => ['https://upload.wikimedia.org/wikipedia/en/1/1d/City_of_Iowa_City_logo.png'],
-          :geo => get_geo(event.at_css('.addressfield-container-inline').text.strip + ', Iowa City, IA').to_json
+          :geo => get_geo(event.at_css('.addressfield-container-inline').text.strip + ', Iowa City, IA').to_json,
+          :all_day => false
       }
 
       categories = []

@@ -35,14 +35,14 @@ class Uiowa
         :title => event['title'],
         :url => event['localist_url'],
         :first_date => DateTime.parse(event['event_instances'][0]['event_instance']['start']),
-        :last_date => nil,
         :location => event['location_name'],
         :description => event['description_text'],
         :photos => [event['photo_url']],
         :geo => {
           :latitude => event['geo']['latitude'],
           :longitude => event['geo']['longitude']
-        }.to_json
+        }.to_json,
+        :all_day => event['event_instances'][0]['event_instance']['all_day']
       }
 
       categories = []
@@ -52,6 +52,12 @@ class Uiowa
         end
       end
       temp[:categories] = categories
+
+      if event['event_instances'][0]['event_instance']['end'].nil?
+        temp[:last_date] = nil
+      else
+        temp[:last_date] = DateTime.parse(event['event_instances'][0]['event_instance']['end'])
+      end
 
       formatted << temp
     end
