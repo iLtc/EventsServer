@@ -2,7 +2,7 @@ json.extract! event, :eid, :title, :url, :first_date, :last_date, :all_day, :loc
 json.first_date event[:first_date].to_time.iso8601
 
 if event[:last_date].nil?
-  json.last_date (event[:first_date].to_time+ 30.minutes).iso8601
+  json.last_date (event[:first_date].to_time + 30.minutes).iso8601
 else
   json.last_date event[:last_date].to_time.iso8601
 end
