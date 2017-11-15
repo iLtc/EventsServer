@@ -1,5 +1,5 @@
 class EventsController < ApplicationController
   def index
-    @events = Event.all
+    @events = Event.where('first_date > ?', Time.now - 1.hour).order('first_date ASC')
   end
 end
