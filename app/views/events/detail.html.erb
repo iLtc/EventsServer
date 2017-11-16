@@ -1,1 +1,18 @@
-<script>window.location = "EventsMap://";</script>
+<% @title=@event.title %>
+
+<div data-role="page">
+
+  <div data-role="header">
+    <h1>Event Detail</h1>
+  </div><!-- /header -->
+
+  <div role="main" class="ui-content">
+    <img src="<%= @photos[0] %>" width="100%">
+    <h3><%= @event.title %></h3>
+    <p><%= @event.description %></p>
+    <a href="EventsMap://event/<%= @event.eid %>" class="ui-btn ui-corner-all">Open in Events Map</a>
+    <a href="<%= @event.url %>" class="ui-btn ui-corner-all">Open Event Website</a>
+  </div><!-- /content -->
+</div><!-- /page -->
+
+<script>window.location = "EventsMap://event/<%= @event.eid %>";</script>
