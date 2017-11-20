@@ -1,0 +1,3 @@
+class EventCategory < ApplicationRecord
+
+end
