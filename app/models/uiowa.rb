@@ -49,6 +49,7 @@ class Uiowa
       if event['filters'].has_key?('event_types')
         for type in event['filters']['event_types'] do
           categories << type['name']
+          EventCategory.add type['name']
         end
       end
       temp[:categories] = categories

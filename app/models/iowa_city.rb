@@ -13,6 +13,7 @@ class IowaCity
     events = []
 
     doc.css('article').each do |event|
+      puts event
       temp = {
           :eid => 'IC-' + Digest::MD5.new.to_s,
           :title => event.at_css('h2 a').text.strip,
@@ -29,6 +30,7 @@ class IowaCity
       categories = []
       for type in event.css('.field--name-field-event-categories .field-item') do
         categories << type.at_css('a').text.strip
+        EventCategory.add type.at_css('a').text.strip
       end
 
       temp[:categories] = categories
