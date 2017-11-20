@@ -12,7 +12,7 @@ class IowaCity
 
     events = []
 
-    doc.css('article').each do |event|
+    doc.css('article:not(.alert)').each do |event|
       puts event
       temp = {
           :eid => 'IC-' + Digest::MD5.new.to_s,
