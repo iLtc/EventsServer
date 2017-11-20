@@ -9,4 +9,13 @@ class EventsController < ApplicationController
     @photos = ActiveSupport::JSON.decode @event[:photos]
     puts @photos
   end
+
+  def categories
+    temp = EventCategory.order('title')
+
+    @categories = []
+    temp.each do |category|
+      @categories << category[:title]
+    end
+  end
 end
