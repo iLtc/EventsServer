@@ -13,7 +13,6 @@ class IowaCity
     events = []
 
     doc.css('article:not(.alert)').each do |event|
-      puts event
       temp = {
           :eid => 'IC-' + Digest::MD5.new.to_s,
           :title => event.at_css('h2 a').text.strip,
