@@ -36,7 +36,8 @@ class EventsController < ApplicationController
     event = Event.where('eid = ?', params[:eid]).first
     user = User.where('uid = ?', params[:id]).first
 
-    LikedEvent.where('user_id = ? and event_id = ?', user.id, event.id).first.destroy
+    temp = LikedEvent.where('user_id = ? and event_id = ?', user.id, event.id)
+    temp.first.destroy if temp.count > 0
   end
 
   def upload
