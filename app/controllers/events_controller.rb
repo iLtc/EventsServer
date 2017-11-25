@@ -41,12 +41,35 @@ class EventsController < ApplicationController
   end
 
   def upload
+    file_name = params[:fileset].path.split('/').last
+
     s3 = Aws::S3::Resource.new(
-        credentials: Aws::Credentials.new(ENV['AWS_ACCESS_ID'], ENV['AWS_SECRET_KEY']),
-        region: 'us-east-2'
+      credentials: Aws::Credentials.new(ENV['AWS_ACCESS_ID'], ENV['AWS_SECRET_KEY']),
+      region: 'us-east-2'
     )
-    obj = s3.bucket(ENV['S3_BUCKET']).object('key')
-    obj.upload_file('/path/to/source/file')
-    puts params
+    obj = s3.bucket(ENV['S3_BUCKET']).object(file_name)
+    obj.upload_file(params[:fileset].path)
+
+    @url = obj.public_url
+  end
+
+  def new
+    temp = {
+        :eid => 'ES-' + Digest::MD5.new.to_s,
+        :title => params[:title],
+        :first_date => DateTime.parse(params[:date]),
+        :last_date => DateTime.parse(params[:endDate]),
+        :location => params[:location],
+        :description => params[:description],
+        :photos => [params[:photo]],
+        :geo => {
+          :latitude => params[:la].sub('Optional(', '').sub(')', ''),
+          :longitude => params[:lo].sub('Optional(', '').sub(')', '')
+        }.to_json,
+        :all_day => false,
+        :categories => ['Events Map']
+    }
+
+    @event = Event.create(temp)
   end
 end
