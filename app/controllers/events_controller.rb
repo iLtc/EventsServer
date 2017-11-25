@@ -2,7 +2,7 @@ class EventsController < ApplicationController
   skip_before_action :verify_authenticity_token
 
   def index
-    @events = Event.where('first_date > ?', Time.now - 1.hour).order('first_date ASC')
+    @events = Event.where('last_date > ?', Time.now).order('first_date ASC')
   end
 
   def detail
