@@ -25,9 +25,11 @@ class EventsController < ApplicationController
     event = Event.where('eid = ?', params[:eid]).first
     user = User.where('uid = ?', params[:id]).first
 
-    temp = user.liked_events.new
-    temp.event = event
-    temp.save
+    unless LikedEvent.where('user_id = ? and event_id = ?', user.id, event.id).count > 0
+      temp = user.liked_events.new
+      temp.event = event
+      temp.save
+    end
   end
 
   def unlike
