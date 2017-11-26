@@ -1,6 +1,5 @@
 require 'httparty'
 require 'nokogiri'
-require 'SecureRandom'
 
 class IowaCity
   def self.get_events(page = 1, date = DateTime.now)
