@@ -1,3 +1,5 @@
+require 'SecureRandom'
+
 class EventsController < ApplicationController
   skip_before_action :verify_authenticity_token
 
@@ -55,7 +57,7 @@ class EventsController < ApplicationController
 
   def new
     temp = {
-        :eid => 'ES-' + Digest::MD5.new.to_s,
+        :eid => 'ES-' + SecureRandom.hex,
         :title => params[:title],
         :first_date => DateTime.parse(params[:date]),
         :last_date => DateTime.parse(params[:endDate]),

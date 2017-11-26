@@ -1,5 +1,6 @@
 require 'httparty'
 require 'nokogiri'
+require 'SecureRandom'
 
 class IowaCity
   def self.get_events(page = 1, date = DateTime.now)
@@ -14,7 +15,7 @@ class IowaCity
 
     doc.css('article:not(.alert)').each do |event|
       temp = {
-          :eid => 'IC-' + Digest::MD5.new.to_s,
+          :eid => 'IC-' + SecureRandom.hex,
           :title => event.at_css('h2 a').text.strip,
           :url => 'https://www.icgov.org' + event.at_css('h2 a')['href'],
           :first_date => DateTime.parse(event.at_css('.date-display-single')['content']),
