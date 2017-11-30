@@ -71,5 +71,12 @@ class EventsController < ApplicationController
     }
 
     @event = Event.create(temp)
+
+    unless params[:uid].nil?
+      user = User.where('uid = ?', params[:uid]).first
+      temp = user.owned_events.new
+      temp.event = @event
+      temp.save
+    end
   end
 end
