@@ -1,4 +1,4 @@
-json.extract! event, :eid, :title, :url, :first_date, :last_date, :all_day, :location, :description
+json.extract! event, :eid, :title, :url, :first_date, :last_date, :all_day, :location, :description, :like, :own
 json.first_date event[:first_date].to_time.iso8601
 
 if event[:last_date].nil?
@@ -10,4 +10,3 @@ end
 json.photos ActiveSupport::JSON.decode event[:photos]
 json.geo ActiveSupport::JSON.decode event[:geo]
 json.categories ActiveSupport::JSON.decode event[:categories]
-json.like false

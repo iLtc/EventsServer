@@ -3,6 +3,24 @@ class EventsController < ApplicationController
 
   def index
     @events = Event.where('last_date > ?', Time.now).order('first_date ASC')
+
+    unless params[:uid].nil?
+      user = User.where('uid = ?', params[:uid]).first
+
+      @events.each do |event|
+        if LikedEvent.where('user_id = ? and event_id = ?', user.id, event.id).count > 0
+          event.like = true
+        else
+          event.like = false
+        end
+
+        if OwnedEvent.where('user_id = ? and event_id = ?', user.id, event.id).count > 0
+          event.own = true
+        else
+          event.own = false
+        end
+      end
+    end
   end
 
   def detail
