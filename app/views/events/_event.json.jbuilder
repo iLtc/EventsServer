@@ -1,4 +1,4 @@
-json.extract! event, :eid, :title, :url, :first_date, :last_date, :all_day, :location, :description, :like, :own
+json.extract! event, :eid, :title, :url, :first_date, :last_date, :all_day, :location, :description, :liked, :owned
 json.first_date event[:first_date].to_time.iso8601
 
 if event[:last_date].nil?

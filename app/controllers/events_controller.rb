@@ -9,15 +9,15 @@ class EventsController < ApplicationController
 
       @events.each do |event|
         if LikedEvent.where('user_id = ? and event_id = ?', user.id, event.id).count > 0
-          event.like = true
+          event.liked = true
         else
-          event.like = false
+          event.liked = false
         end
 
         if OwnedEvent.where('user_id = ? and event_id = ?', user.id, event.id).count > 0
-          event.own = true
+          event.owned = true
         else
-          event.own = false
+          event.owned = false
         end
       end
     end
