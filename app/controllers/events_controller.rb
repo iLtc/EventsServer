@@ -97,4 +97,38 @@ class EventsController < ApplicationController
       temp.save
     end
   end
+
+  def user_events
+    unless params[:uid].nil?
+      user = User.where('uid = ?', params[:uid]).first
+      @events = []
+
+      owneds = user.owned_events
+      owneds.each do |owned|
+        @events << owned.event
+      end
+
+      likeds = user.liked_events
+      likeds.each do |liked|
+        @events << liked.event
+      end
+
+      @events.uniq!
+
+      @events.each do |event|
+        if LikedEvent.where('user_id = ? and event_id = ?', user.id, event.id).count > 0
+          event.liked = true
+        else
+          event.liked = false
+        end
+
+        if OwnedEvent.where('user_id = ? and event_id = ?', user.id, event.id).count > 0
+          event.owned = true
+        else
+          event.owned = false
+        end
+      end
+    end
+    render "index"
+  end
 end
