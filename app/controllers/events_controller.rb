@@ -2,7 +2,40 @@ class EventsController < ApplicationController
   skip_before_action :verify_authenticity_token
 
   def index
-    @events = Event.where('last_date > ?', Time.now).order('first_date ASC')
+    # TODO: Change limit and order
+    temp = Event.where('last_date > ?', Time.now).order('first_date ASC')
+
+    @events = []
+
+    unless params[:categories].nil?
+      request_categories = params[:categories].split(',')
+    end
+    puts request_categories
+
+    unless params[:sources].nil?
+      request_sources = []
+
+      params[:sources].split(',').each do |source|
+        request_sources << "UI" if source == "University of Iowa"
+        request_sources << "IC" if source == "Iowa City"
+        request_sources << "ES" if source == "Events Server"
+      end
+    end
+    puts request_sources
+
+    (0...(temp.size)).each do |i|
+      unless params[:categories].nil?
+        event_categories = ActiveSupport::JSON.decode temp[i][:categories]
+        next if (request_categories & event_categories).empty?
+      end
+
+      unless params[:sources].nil?
+        next unless request_sources.include? temp[i][:eid].slice(0, 2)
+      end
+
+      @events << temp[i]
+    end
+
 
     unless params[:uid].nil?
       user = User.where('uid = ?', params[:uid]).first
