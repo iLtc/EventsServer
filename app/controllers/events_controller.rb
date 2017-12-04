@@ -3,7 +3,7 @@ class EventsController < ApplicationController
 
   def index
     # TODO: Change limit and order
-    temp = Event.where('last_date > ?', Time.now).order('first_date ASC')
+    temp = Event.where('last_date > ?', Time.now - 1.day).order('first_date ASC')
 
     @events = []
 
@@ -163,5 +163,17 @@ class EventsController < ApplicationController
       end
     end
     render "index"
+  end
+
+  def views
+    unless params[:eid].nil?
+      temp = Event.where('eid = ?', params[:eid])
+
+      unless temp.count == 0
+        event = temp.first
+
+        event.increment! :views
+      end
+    end
   end
 end

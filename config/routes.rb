@@ -8,6 +8,7 @@ Rails.application.routes.draw do
   post '/events/:eid/like', to: 'events#like', defaults: { format: :json }
   post '/events/:eid/unlike', to: 'events#unlike', defaults: { format: :json }
   post '/events/image', to: 'events#upload', defaults: { format: :json }
+  post '/events/views', to: 'events#views', defaults: { format: :json }
 
   post '/users/new', to: 'users#new', defaults: { format: :json }
 end
