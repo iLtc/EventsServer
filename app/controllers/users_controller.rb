@@ -15,7 +15,7 @@ class UsersController < ApplicationController
       # TODO: Change username and pic if different
     else
       user = User.new
-      user.uid = Digest::MD5.new.to_s
+      user.uid = SecureRandom.hex
       user.name = name
       user.pic_url = pic_url
       user.save
