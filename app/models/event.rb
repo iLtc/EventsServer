@@ -8,4 +8,12 @@ class Event < ApplicationRecord
     # TODO: Find a better way
     LikedEvent.where('event_id = ?', id).count
   end
+
+  def views1
+    if views.nil?
+      0
+    else
+      views
+    end
+  end
 end
