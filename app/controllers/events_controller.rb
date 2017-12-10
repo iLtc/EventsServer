@@ -121,6 +121,8 @@ class EventsController < ApplicationController
         :categories => ['Events Map']
     }
 
+    temp[:url] = 'https://events.iltcapp.net/events/' + temp[:eid]
+
     @event = Event.create(temp)
 
     unless params[:uid].nil?
