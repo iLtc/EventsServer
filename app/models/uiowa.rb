@@ -55,7 +55,7 @@ class Uiowa
       temp[:categories] = categories
 
       if event['event_instances'][0]['event_instance']['end'].nil?
-        temp[:last_date] = nil
+        temp[:last_date] = DateTime.parse(event['event_instances'][0]['event_instance']['start']) + 1.hour
       else
         temp[:last_date] = DateTime.parse(event['event_instances'][0]['event_instance']['end'])
       end

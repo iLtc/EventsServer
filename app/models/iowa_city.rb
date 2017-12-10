@@ -18,7 +18,7 @@ class IowaCity
           :title => event.at_css('h2 a').text.strip,
           :url => 'https://www.icgov.org' + event.at_css('h2 a')['href'],
           :first_date => DateTime.parse(event.at_css('.date-display-single')['content']),
-          :last_date => nil,
+          :last_date => DateTime.parse(event.at_css('.date-display-single')['content']) + 1.hour,
           :location => event.at_css('.addressfield-container-inline').text.strip,
           :description => event.at_css('.field--name-field-event-description').text.strip,
           :photos => ['https://upload.wikimedia.org/wikipedia/en/1/1d/City_of_Iowa_City_logo.png'],
