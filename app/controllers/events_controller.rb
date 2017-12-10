@@ -10,7 +10,6 @@ class EventsController < ApplicationController
     unless params[:categories].nil?
       request_categories = params[:categories].split(',')
     end
-    puts request_categories
 
     unless params[:sources].nil?
       request_sources = []
@@ -21,7 +20,6 @@ class EventsController < ApplicationController
         request_sources << "ES" if source == "Events Server"
       end
     end
-    puts request_sources
 
     (0...(temp.size)).each do |i|
       unless params[:categories].nil?
