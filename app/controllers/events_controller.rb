@@ -2,8 +2,7 @@ class EventsController < ApplicationController
   skip_before_action :verify_authenticity_token
 
   def index
-    # TODO: Change limit and order
-    temp = Event.where('last_date > ?', Time.now - 1.day).order('first_date ASC')
+    temp = Event.where('last_date > ?', Time.now)
 
     @events = []
 
@@ -38,20 +37,38 @@ class EventsController < ApplicationController
     unless params[:uid].nil?
       user = User.where('uid = ?', params[:uid]).first
 
-      @events.each do |event|
-        if LikedEvent.where('user_id = ? and event_id = ?', user.id, event.id).count > 0
-          event.liked = true
-        else
-          event.liked = false
-        end
+      unless user.nil?
+        @events.each do |event|
+          if LikedEvent.where('user_id = ? and event_id = ?', user.id, event.id).count > 0
+            event.liked = true
+          else
+            event.liked = false
+          end
 
-        if OwnedEvent.where('user_id = ? and event_id = ?', user.id, event.id).count > 0
-          event.owned = true
-        else
-          event.owned = false
+          if OwnedEvent.where('user_id = ? and event_id = ?', user.id, event.id).count > 0
+            event.owned = true
+          else
+            event.owned = false
+          end
         end
       end
     end
+
+    if params[:sort].nil?
+      @events.sort_by! { |event| [event[:first_date], event[:last_date]] }
+    else
+      case params[:sort]
+        when "End Time"
+          @events.sort_by! { |event| [event[:last_date], event[:first_date]] }
+        when "Most Viewed"
+          @events.sort_by! { |event| [-event.views1, event[:first_date]] }
+        when "Most Liked"
+          @events.sort_by! { |event| [-event.likes, event[:first_date]] }
+        else # when "Start Time"
+          @events.sort_by! { |event| [event[:first_date], event[:last_date]] }
+      end
+    end
+
   end
 
   def detail
