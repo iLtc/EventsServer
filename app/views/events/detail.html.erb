@@ -11,7 +11,9 @@
     <h3><%= @event.title %></h3>
     <p><%= @event.description %></p>
     <a href="EventsMap://event/<%= @event.eid %>" class="ui-btn ui-corner-all">Open in Events Map</a>
-    <a href="<%= @event.url %>" class="ui-btn ui-corner-all">Open Event Website</a>
+    <% if @event.eid.slice(0, 2) != "ES" %>
+      <a href="<%= @event.url %>" class="ui-btn ui-corner-all">Open Event Website</a>
+    <% end %>
   </div><!-- /content -->
 </div><!-- /page -->
 
