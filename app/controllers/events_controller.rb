@@ -60,7 +60,6 @@ class EventsController < ApplicationController
     @event = Event.where('eid = ?', params[:eid]).first
 
     @photos = ActiveSupport::JSON.decode @event[:photos]
-    puts @photos
   end
 
   def categories
