@@ -192,4 +192,49 @@ class EventsController < ApplicationController
       end
     end
   end
+
+  def delete
+    user = get_user params[:uid]
+    return if performed?
+
+    event = get_event params[:eid]
+    return if performed?
+
+    if OwnedEvent.where('user_id = ? AND event_id = ?', user.id, event.id).count == 0
+      render_error 'User Not Own Event' and return
+    end
+
+    LikedEvent.where('event_id = ?', event.id).destroy_all
+    OwnedEvent.where('event_id = ?', event.id).destroy_all
+
+    event.destroy
+
+    render :json => {:status => 'Success'}
+  end
+
+  private
+
+  def get_user(uid)
+    temp = User.where('uid = ?', uid)
+
+    if temp.count.zero?
+      render_error 'No User' and return
+    end
+
+    temp.first
+  end
+
+  def get_event(eid)
+    temp = Event.where('eid = ?', eid)
+
+    if temp.count.zero?
+      render_error 'No Event' and return
+    end
+
+    temp.first
+  end
+
+  def render_error(msg)
+    render :json => {:error => msg, :status => 'Failed'}
+  end
 end

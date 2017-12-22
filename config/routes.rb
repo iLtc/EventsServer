@@ -5,6 +5,7 @@ Rails.application.routes.draw do
   get '/events/categories', to: 'events#categories', defaults: { format: :json }
   get '/events/user', to: 'events#user_events', defaults: { format: :json }
   get '/events/:eid', to: 'events#detail'
+  delete '/events/:eid', to: 'events#delete'
   post '/events/:eid/like', to: 'events#like', defaults: { format: :json }
   post '/events/:eid/unlike', to: 'events#unlike', defaults: { format: :json }
   post '/events/image', to: 'events#upload', defaults: { format: :json }
