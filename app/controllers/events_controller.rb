@@ -39,7 +39,8 @@ class EventsController < ApplicationController
 
 
     unless params[:uid].nil?
-      user = User.where('uid = ?', params[:uid]).first
+      user = get_user params[:uid]
+      return if performed?
 
       unless user.nil?
         @events.each do |event|
