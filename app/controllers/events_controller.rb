@@ -37,6 +37,9 @@ class EventsController < ApplicationController
       @events << temp[i]
     end
 
+    if @events.size.zero?
+      render_error(404, 'No Event Base On Filter') and return
+    end
 
     unless params[:uid].nil?
       user = get_user params[:uid]
@@ -71,7 +74,6 @@ class EventsController < ApplicationController
           @events.sort_by! { |event| [event[:first_date], event[:last_date]] }
       end
     end
-
   end
 
   def detail
