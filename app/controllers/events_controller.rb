@@ -77,7 +77,17 @@ class EventsController < ApplicationController
   end
 
   def detail
-    @event = Event.where('eid = ?', params[:eid]).first
+    temp = Event.where('eid = ?', params[:eid])
+
+    if temp.size.zero?
+      respond_to do |format|
+        format.html {render "detail_notfound"}
+        format.json { render_error(404, "Event Not Found") }
+      end
+      return
+    end
+
+    @event = temp.first
 
     @photos = ActiveSupport::JSON.decode @event[:photos]
   end
@@ -214,7 +224,7 @@ class EventsController < ApplicationController
 
     event.destroy
 
-    render json: { code: 200, status: 'Success' }
+    render json: { code: 200, msg: '' }
   end
 
   private
@@ -240,6 +250,6 @@ class EventsController < ApplicationController
   end
 
   def render_error(code, msg)
-    render json: { code: code, error: msg, status: 'Failed' }
+    render json: { code: code, msg: msg }
   end
 end
