@@ -4,6 +4,10 @@ class EventsController < ApplicationController
   def index
     temp = Event.where('last_date > ?', Time.now)
 
+    if temp.size == 0
+      render_error(404, 'No Event') and return
+    end
+
     @events = []
 
     unless params[:categories].nil?
