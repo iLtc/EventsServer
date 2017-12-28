@@ -201,7 +201,7 @@ class EventsController < ApplicationController
     return if performed?
 
     if OwnedEvent.where('user_id = ? AND event_id = ?', user.id, event.id).count == 0
-      render_error 'User Not Own Event' and return
+      render_error(403, 'User Not Own Event') and return
     end
 
     LikedEvent.where('event_id = ?', event.id).destroy_all
@@ -209,7 +209,7 @@ class EventsController < ApplicationController
 
     event.destroy
 
-    render :json => {:status => 'Success'}
+    render json: { code: 200, status: 'Success' }
   end
 
   private
@@ -218,7 +218,7 @@ class EventsController < ApplicationController
     temp = User.where('uid = ?', uid)
 
     if temp.count.zero?
-      render_error 'No User' and return
+      render_error(404, 'No User') and return
     end
 
     temp.first
@@ -228,13 +228,13 @@ class EventsController < ApplicationController
     temp = Event.where('eid = ?', eid)
 
     if temp.count.zero?
-      render_error 'No Event' and return
+      render_error(404, 'No Event') and return
     end
 
     temp.first
   end
 
-  def render_error(msg)
-    render :json => {:error => msg, :status => 'Failed'}
+  def render_error(code, msg)
+    render json: { code: code, error: msg, status: 'Failed' }
   end
 end
