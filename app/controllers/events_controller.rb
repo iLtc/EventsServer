@@ -42,19 +42,17 @@ class EventsController < ApplicationController
       user = get_user params[:uid]
       return if performed?
 
-      unless user.nil?
-        @events.each do |event|
-          if LikedEvent.where('user_id = ? and event_id = ?', user.id, event.id).count > 0
-            event.liked = true
-          else
-            event.liked = false
-          end
+      @events.each do |event|
+        if LikedEvent.where('user_id = ? and event_id = ?', user.id, event.id).count > 0
+          event.liked = true
+        else
+          event.liked = false
+        end
 
-          if OwnedEvent.where('user_id = ? and event_id = ?', user.id, event.id).count > 0
-            event.owned = true
-          else
-            event.owned = false
-          end
+        if OwnedEvent.where('user_id = ? and event_id = ?', user.id, event.id).count > 0
+          event.owned = true
+        else
+          event.owned = false
         end
       end
     end
