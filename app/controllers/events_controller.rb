@@ -102,19 +102,27 @@ class EventsController < ApplicationController
   end
 
   def like
-    event = Event.where('eid = ?', params[:eid]).first
-    user = User.where('uid = ?', params[:id]).first
+    user = get_user params[:uid]
+    return if performed?
 
-    unless LikedEvent.where('user_id = ? and event_id = ?', user.id, event.id).count > 0
-      temp = user.liked_events.new
-      temp.event = event
-      temp.save
+    event = get_event params[:eid]
+    return if performed?
+
+    if LikedEvent.where('user_id = ? and event_id = ?', user.id, event.id).count > 0
+      render_error(400, 'You already liked this event.')
+      return
     end
+
+    temp = user.liked_events.new
+    temp.event = event
+    temp.save
+
+    render 'events/done'
   end
 
   def unlike
     event = Event.where('eid = ?', params[:eid]).first
-    user = User.where('uid = ?', params[:id]).first
+    user = User.where('uid = ?', params[:uid]).first
 
     temp = LikedEvent.where('user_id = ? and event_id = ?', user.id, event.id)
     temp.first.destroy if temp.count > 0
