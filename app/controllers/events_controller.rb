@@ -182,36 +182,39 @@ class EventsController < ApplicationController
   end
 
   def user_events
-    unless params[:uid].nil?
-      user = User.where('uid = ?', params[:uid]).first
-      @events = []
+    user = get_user params[:uid]
+    return if performed?
 
-      owneds = user.owned_events
-      owneds.each do |owned|
-        @events << owned.event
+    @events = []
+
+    owneds = user.owned_events
+    owneds.each do |owned|
+      @events << owned.event
+    end
+
+    likeds = user.liked_events
+    likeds.each do |liked|
+      @events << liked.event
+    end
+
+    @events.uniq!
+
+    @events.each do |event|
+      if LikedEvent.where('user_id = ? and event_id = ?', user.id, event.id).count > 0
+        event.liked = true
+      else
+        event.liked = false
       end
 
-      likeds = user.liked_events
-      likeds.each do |liked|
-        @events << liked.event
-      end
-
-      @events.uniq!
-
-      @events.each do |event|
-        if LikedEvent.where('user_id = ? and event_id = ?', user.id, event.id).count > 0
-          event.liked = true
-        else
-          event.liked = false
-        end
-
-        if OwnedEvent.where('user_id = ? and event_id = ?', user.id, event.id).count > 0
-          event.owned = true
-        else
-          event.owned = false
-        end
+      if OwnedEvent.where('user_id = ? and event_id = ?', user.id, event.id).count > 0
+        event.owned = true
+      else
+        event.owned = false
       end
     end
+
+    @events.sort_by! { |event| [event[:first_date], event[:last_date]] }
+
     render "index"
   end
 
