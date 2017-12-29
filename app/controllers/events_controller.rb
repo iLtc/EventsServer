@@ -153,6 +153,9 @@ class EventsController < ApplicationController
   end
 
   def new
+    user = get_user params[:uid]
+    return if performed?
+
     temp = {
         :eid => 'ES-' + SecureRandom.hex,
         :title => params[:title],
@@ -169,16 +172,13 @@ class EventsController < ApplicationController
         :categories => ['Events Map']
     }
 
-    temp[:url] = 'https://events.iltcapp.net/events/' + temp[:eid]
+    temp[:url] = 'https://api.events.iltcapp.net/events/' + temp[:eid]
 
     @event = Event.create(temp)
 
-    unless params[:uid].nil?
-      user = User.where('uid = ?', params[:uid]).first
-      temp = user.owned_events.new
-      temp.event = @event
-      temp.save
-    end
+    temp = user.owned_events.new
+    temp.event = @event
+    temp.save
   end
 
   def user_events
