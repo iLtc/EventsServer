@@ -219,15 +219,12 @@ class EventsController < ApplicationController
   end
 
   def views
-    unless params[:eid].nil?
-      temp = Event.where('eid = ?', params[:eid])
+    event = get_event params[:eid]
+    return if performed?
 
-      unless temp.count == 0
-        event = temp.first
+    event.increment! :views
 
-        event.increment! :views
-      end
-    end
+    render "done"
   end
 
   def delete
