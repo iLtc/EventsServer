@@ -121,11 +121,22 @@ class EventsController < ApplicationController
   end
 
   def unlike
-    event = Event.where('eid = ?', params[:eid]).first
-    user = User.where('uid = ?', params[:uid]).first
+    user = get_user params[:uid]
+    return if performed?
+
+    event = get_event params[:eid]
+    return if performed?
 
     temp = LikedEvent.where('user_id = ? and event_id = ?', user.id, event.id)
-    temp.first.destroy if temp.count > 0
+
+    if temp.count.zero?
+      render_error(400, 'You haven\'t liked this event.')
+      return
+    end
+
+    temp.first.destroy
+
+    render 'events/done'
   end
 
   def upload
