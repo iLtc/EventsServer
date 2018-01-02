@@ -2,7 +2,7 @@ class EventsController < ApplicationController
   skip_before_action :verify_authenticity_token
 
   def index
-    temp = Event.where('last_date > ?', Time.now)
+    temp = Event.where('last_date > ? AND verified = ?', Time.now, true)
 
     if temp.size == 0
       render_error(404, 'No Event') and return
