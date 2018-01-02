@@ -42,7 +42,8 @@ class Uiowa
           :latitude => event['geo']['latitude'],
           :longitude => event['geo']['longitude']
         }.to_json,
-        :all_day => event['event_instances'][0]['event_instance']['all_day']
+        :all_day => event['event_instances'][0]['event_instance']['all_day'],
+        :verified => true
       }
 
       categories = []
