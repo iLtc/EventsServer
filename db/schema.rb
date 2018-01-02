@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20171204210500) do
+ActiveRecord::Schema.define(version: 20180102122003) do
 
   create_table "event_categories", force: :cascade do |t|
     t.string "title"
@@ -33,6 +33,7 @@ ActiveRecord::Schema.define(version: 20171204210500) do
     t.boolean "all_day"
     t.datetime "last_date"
     t.integer "views"
+    t.boolean "verified", default: false
   end
 
   create_table "liked_events", force: :cascade do |t|
