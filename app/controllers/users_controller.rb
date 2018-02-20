@@ -12,7 +12,11 @@ class UsersController < ApplicationController
       login = temp.first
       user = login.user
 
-      # TODO: Change username and pic if different
+      if user.name != name or user.pic_url != pic_url
+        user.name = name
+        user.pic_url = pic_url
+        user.save
+      end
     else
       user = User.new
       user.uid = SecureRandom.hex
